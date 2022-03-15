@@ -1,25 +1,28 @@
-# client GPAO
+# GPAO Client
 
-Client python pour l'execution de calcul distribués.
+GPAO client, is a python client designed to make distributed computing.
 
-## Installation 
+## Installation
+Create a Python environment :
 ```
 ci/createEnv.sh
 ```
 
-## Example d'utilisation
+## Example
+Note that you must install the GPAO server before on localhost (https://github.com/ign-packo/ign-gpao).
+Then you can run the test :
 ```
 ci/test.sh
 ```
 
-## Projects liés
+## Linked projects
 
-Ce projet permet de créer un fichier JSON qui décrit l'ensemble des tâche à exécuter :
+This project is used to create a JSON file that describe the set of tasks.
 
 https://github.com/arnaudbirk/ign-gpao-project-builder
 
 
-Ce projet est le serveur qui permet d'orchester les tâches :
+This project is the server used to orchestrate the taks.
 
 https://github.com/ign-packo/ign-gpao
 
