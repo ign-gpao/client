@@ -1,0 +1,3 @@
+requests
+ign-gpao-project-builder
+pytest
