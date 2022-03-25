@@ -191,7 +191,11 @@ def process(parameters):
 
             if mode_exec_and_quit:
                 logging.info("%s : Ce thread devient actif", str_thread_id)
-                send_request("node/setNbActive?host=" + HOSTNAME + "&limit=10", "POST", str_thread_id=str_thread_id)
+                host = HOSTNAME
+                # ajout de -1 au nom du host quand c'est un client avec tag
+                if tags:
+                    host += "-1"
+                send_request("node/setNbActive?host=" + host + "&limit=10", "POST", str_thread_id=str_thread_id)
 
             while True:
                 # on verifie l'espace disponible dans le dossier de travail
