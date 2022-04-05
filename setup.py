@@ -7,7 +7,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="ign-gpao-client",
-    version="0.1.0",
+    version="0.1.1",
     description="Client GPAO",
     long_description_content_type="text/markdown",
     long_description=README,
