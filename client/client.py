@@ -8,10 +8,12 @@ import multiprocessing
 
 import argparse
 import logging
-
+import socket
 from client import worker
 
 NB_PROCESS = multiprocessing.cpu_count()
+
+HOSTNAME = socket.gethostname()
 
 def arg_parser():
     """ Extraction des arguments de la ligne de commande """
@@ -76,9 +78,9 @@ if __name__ == "__main__":
             sys.exit(1)
         NB_PROCESS = ARGS.threads
     if ARGS.suffix:
-        worker.HOSTNAME += ARGS.suffix
+        HOSTNAME += ARGS.suffix
 
-    logging.info("HOSTNAME : %s", worker.HOSTNAME)
+    logging.info("HOSTNAME : %s", HOSTNAME)
     logging.info("NB_PROCESS : %s", NB_PROCESS)
 
     REQ_NB_SESSIONS = worker.send_request("nodes", "GET")
@@ -86,7 +88,7 @@ if __name__ == "__main__":
     NODES = REQ_NB_SESSIONS.json()
     NB_SESSION = 0
     for node in NODES:
-        if node["host"] == worker.HOSTNAME:
+        if node["host"] == HOSTNAME:
             # attention, les donnees sont en string
             # a corriger dans l'API
             NB_SESSION = (
@@ -100,6 +102,6 @@ if __name__ == "__main__":
                       "(ex: python client.py -s _MonSuffixe).")
         sys.exit(1)
 
-    worker.exec_multiprocess(NB_PROCESS, ARGS.tags, False)
+    worker.exec_multiprocess(HOSTNAME, NB_PROCESS, ARGS.tags, False)
 
     logging.info("Fin du client GPAO")
