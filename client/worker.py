@@ -7,7 +7,6 @@ import platform
 import ctypes
 import requests
 import os
-import socket
 import logging
 import signal
 import multiprocessing
@@ -16,8 +15,6 @@ import multiprocessing
 MIN_AVAILABLE_SPACE = 5
 # duree minimale en s entre deux requetes de mise a jour du log
 MIN_FLUSH_RATE = 5
-
-HOSTNAME = socket.gethostname()
 
 URL_API = (
     "http://"
@@ -168,9 +165,10 @@ def launch_command(job, str_thread_id, shell, working_dir):
 
 def process(parameters):
     """ Traitement pour un thread """
-    str_thread_id = "[" + str(parameters[0]) + "]"
-    tags = parameters[1]
-    mode_exec_and_quit = parameters[2]
+    hostname = parameters[0]
+    str_thread_id = "[" + str(parameters[1]) + "]"
+    tags = parameters[2]
+    mode_exec_and_quit = parameters[3]
     id_session = -1
     # AB : Il faut passer shell=True sous windows
     # pour que les commandes systemes soient reconnues
@@ -181,7 +179,7 @@ def process(parameters):
         # courant qui devient le dossier d'execution
         with tempfile.TemporaryDirectory(dir=".") as working_dir:
 
-            url = "session?host=" + HOSTNAME
+            url = "session?host=" + hostname
             if tags:
                 url += str(id_session) + "&tags=" + tags
 
@@ -193,7 +191,7 @@ def process(parameters):
 
             if mode_exec_and_quit:
                 logging.info("%s : Ce thread devient actif", str_thread_id)
-                host = HOSTNAME
+                host = hostname
                 # ajout de -1 au nom du host quand c'est un client avec tag
                 if tags:
                     host += "-1"
@@ -263,14 +261,14 @@ def process(parameters):
     logging.info("%s : Fin du thread", str_thread_id)
 
 
-def exec_multiprocess(nb_process, tags, mode_exec_and_quit):
+def exec_multiprocess(hostname, nb_process, tags, mode_exec_and_quit):
 
     with multiprocessing.Pool(nb_process) as POOL:
         signal.signal(signal.SIGINT, signal.SIG_IGN)
 
         parameters = []
         for id_thread in range(nb_process):
-            parameters.append((id_thread, tags, mode_exec_and_quit))
+            parameters.append((hostname, id_thread, tags, mode_exec_and_quit))
 
         try:
             POOL.map(process, parameters)
