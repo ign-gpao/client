@@ -1,3 +1,8 @@
+"""
+Client pour la GPAO
+Permet de lancer un thread par coeur
+"""
+# !/usr/bin/python
 import random
 import subprocess
 import time
@@ -5,11 +10,14 @@ import tempfile
 import shlex
 import platform
 import ctypes
-import requests
 import os
 import logging
 import signal
 import multiprocessing
+
+from functools import partial
+
+import requests
 
 # espace libre minimal en Go sur un dossier de travail pour accepter un job
 MIN_AVAILABLE_SPACE = 5
@@ -24,6 +32,7 @@ URL_API = (
     + "/api/"
 )
 
+
 def send_request(url, mode, json=None, str_thread_id=None):
     """ Fonction executant les requetes http """
     success = False
@@ -31,15 +40,15 @@ def send_request(url, mode, json=None, str_thread_id=None):
     while not success:
         try:
             if mode == "GET":
-                req = requests.get(URL_API+url)
+                req = requests.get(URL_API+url, timeout=60)
                 req.raise_for_status()
                 return req
             if mode == "PUT":
-                req = requests.put(URL_API+url)
+                req = requests.put(URL_API+url, timeout=60)
                 req.raise_for_status()
                 return req
             if mode == "POST":
-                req = requests.post(URL_API+url, json=json)
+                req = requests.post(URL_API+url, json=json, timeout=60)
                 req.raise_for_status()
                 return req
         except requests.exceptions.Timeout:
@@ -87,13 +96,13 @@ def read_stdout_process(proc, id_job, str_thread_id, command):
 
     while True:
         realtime_output += proc.stdout.readline()
-        realtime_output = realtime_output.replace('\x00','')
+        realtime_output = realtime_output.replace('\x00', '')
 
         if proc.poll() is not None:
             # entre temps, des nouveaux messages sont peut-etre arrives
             for line in proc.stdout.readlines():
                 realtime_output += line
-                realtime_output = realtime_output.replace('\x00','')
+                realtime_output = realtime_output.replace('\x00', '')
 
             if realtime_output:
                 url_tmp = "job/" + str(id_job) + "/appendLog"
@@ -163,25 +172,22 @@ def launch_command(job, str_thread_id, shell, working_dir):
     return id_job, return_code, status, error_message
 
 
-def process(parameters):
+def process(parameters, id_thread):
     """ Traitement pour un thread """
-    hostname = parameters[0]
-    str_thread_id = "[" + str(parameters[1]) + "]"
-    tags = parameters[2]
-    mode_exec_and_quit = parameters[3]
+    str_thread_id = "[" + str(id_thread) + "]"
     id_session = -1
     # AB : Il faut passer shell=True sous windows
     # pour que les commandes systemes soient reconnues
     shell = platform.system() == "Windows"
-    
+
     try:
         # On cree un dossier temporaire dans le dossier
         # courant qui devient le dossier d'execution
         with tempfile.TemporaryDirectory(dir=".") as working_dir:
 
-            url = "session?host=" + hostname
-            if tags:
-                url += str(id_session) + "&tags=" + tags
+            url = "session?host=" + parameters["hostname"]
+            if parameters["tags"]:
+                url += str(id_session) + "&tags=" + parameters["tags"]
 
             req = send_request(url, "PUT", str_thread_id=str_thread_id)
 
@@ -189,13 +195,15 @@ def process(parameters):
             logging.info("%s : working dir (%s) id_session (%s)",
                          str_thread_id, working_dir, id_session)
 
-            if mode_exec_and_quit:
+            if parameters["mode_exec_and_quit"]:
                 logging.info("%s : Ce thread devient actif", str_thread_id)
-                host = hostname
+                host = parameters["hostname"]
                 # ajout de -1 au nom du host quand c'est un client avec tag
-                if tags:
+                if parameters["tags"]:
                     host += "-1"
-                send_request("node/setNbActive?host=" + host + "&limit=10", "POST", str_thread_id=str_thread_id)
+                send_request("node/setNbActive?host=" + host + "&limit=10",
+                             "POST",
+                             str_thread_id=str_thread_id)
 
             while True:
                 # on verifie l'espace disponible dans le dossier de travail
@@ -244,15 +252,17 @@ def process(parameters):
                                       req.status_code,
                                       req.content)
                 else:
-                    if mode_exec_and_quit:
-                        logging.info("%s : Mode test, et plus de job à faire => sortie", str_thread_id)
+                    if parameters["mode_exec_and_quit"]:
+                        logging.info("%s : Mode test, et plus de "
+                                     "job à faire => sortie",
+                                     str_thread_id)
                         raise KeyboardInterrupt
-                
+
                 # sleep
-                if not mode_exec_and_quit:
+                if not parameters["mode_exec_and_quit"]:
                     time.sleep(random.randrange(10))
     except KeyboardInterrupt:
-        logging.info("%s : on demande au process de s'arreter", str_thread_id)
+        logging.info("%s : On demande au process de s'arreter", str_thread_id)
 
         req = send_request("session/close?id=" + str(id_session),
                            "POST",
@@ -262,21 +272,22 @@ def process(parameters):
 
 
 def exec_multiprocess(hostname, nb_process, tags, mode_exec_and_quit):
-
-    with multiprocessing.Pool(nb_process) as POOL:
+    """ Execution du multiprocess """
+    with multiprocessing.Pool(nb_process) as pool:
         signal.signal(signal.SIGINT, signal.SIG_IGN)
 
-        parameters = []
-        for id_thread in range(nb_process):
-            parameters.append((hostname, id_thread, tags, mode_exec_and_quit))
+        parameters = {'hostname': hostname,
+                      'tags': tags,
+                      'mode_exec_and_quit': mode_exec_and_quit}
+
+        func_process = partial(process, parameters)
 
         try:
-            POOL.map(process, parameters)
+            pool.map(func_process, range(nb_process))
 
         except KeyboardInterrupt:
-            logging.info("on demande au pool de s'arreter")
-            POOL.terminate()
+            logging.info("On demande au pool de s'arreter")
+            pool.terminate()
         else:
-            logging.info("Normal termination")
-            POOL.close()
-        POOL.join()
+            pool.close()
+        pool.join()

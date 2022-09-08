@@ -9,11 +9,14 @@ import multiprocessing
 import argparse
 import logging
 import socket
+
 from client import worker
+from . import __version__
 
 NB_PROCESS = multiprocessing.cpu_count()
 
 HOSTNAME = socket.gethostname()
+
 
 def arg_parser():
     """ Extraction des arguments de la ligne de commande """
@@ -65,9 +68,9 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S')
 
 
-
 if __name__ == "__main__":
     logging.info("Demarrage du client GPAO")
+    logging.info("Version du client : %s", __version__)
     logging.info("URL_API : %s", worker.URL_API)
 
     logging.debug("Argument : %s", ARGS)
