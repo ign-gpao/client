@@ -253,7 +253,7 @@ def process(parameters, id_thread):
                                       req.content)
                 else:
                     if parameters["mode_exec_and_quit"]:
-                        logging.info("%s : Mode test, et plus de ",
+                        logging.info("%s : Mode test, et plus de "
                                      "job à faire => sortie",
                                      str_thread_id)
                         raise KeyboardInterrupt

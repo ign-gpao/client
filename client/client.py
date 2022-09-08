@@ -10,9 +10,8 @@ import argparse
 import logging
 import socket
 
-from . import __version__
-
 from client import worker
+from . import __version__
 
 NB_PROCESS = multiprocessing.cpu_count()
 
