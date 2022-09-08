@@ -40,15 +40,15 @@ def send_request(url, mode, json=None, str_thread_id=None):
     while not success:
         try:
             if mode == "GET":
-                req = requests.get(URL_API+url)
+                req = requests.get(URL_API+url, timeout=60)
                 req.raise_for_status()
                 return req
             if mode == "PUT":
-                req = requests.put(URL_API+url)
+                req = requests.put(URL_API+url, timeout=60)
                 req.raise_for_status()
                 return req
             if mode == "POST":
-                req = requests.post(URL_API+url, json=json)
+                req = requests.post(URL_API+url, json=json, timeout=60)
                 req.raise_for_status()
                 return req
         except requests.exceptions.Timeout:
