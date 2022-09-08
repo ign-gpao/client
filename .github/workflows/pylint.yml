@@ -27,4 +27,4 @@ jobs:
       run: |
         flake8 client/__init__.py
         flake8 client/client.py
-        flake8 worker/client.py
+        flake8 client/client.py
