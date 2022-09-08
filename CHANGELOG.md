@@ -14,6 +14,7 @@
 
 ### 📁 Other pull requests
 
+- fix workflow install twine [\#16](https://github.com/ign-gpao/client/pull/16) ([arnaudbirk](https://github.com/arnaudbirk))
 - fix workflow [\#15](https://github.com/ign-gpao/client/pull/15) ([arnaudbirk](https://github.com/arnaudbirk))
 - Init [\#14](https://github.com/ign-gpao/client/pull/14) ([arnaudbirk](https://github.com/arnaudbirk))
 - Fix suffix on hostname for Windows [\#12](https://github.com/ign-gpao/client/pull/12) ([gliegard](https://github.com/gliegard))
