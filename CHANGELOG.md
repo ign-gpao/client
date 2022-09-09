@@ -1,6 +1,6 @@
 # 📑 Changelog
 
-## [0.2.0](https://github.com/ign-gpao/client/tree/0.2.0) (2022-09-08)
+## [0.2.0](https://github.com/ign-gpao/client/tree/0.2.0) (2022-09-09)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/v0.1.1...0.2.0)
 
@@ -14,6 +14,7 @@
 
 ### 📁 Other pull requests
 
+- fix version \_\_init\_\_.py [\#17](https://github.com/ign-gpao/client/pull/17) ([arnaudbirk](https://github.com/arnaudbirk))
 - fix workflow install twine [\#16](https://github.com/ign-gpao/client/pull/16) ([arnaudbirk](https://github.com/arnaudbirk))
 - fix workflow [\#15](https://github.com/ign-gpao/client/pull/15) ([arnaudbirk](https://github.com/arnaudbirk))
 - Init [\#14](https://github.com/ign-gpao/client/pull/14) ([arnaudbirk](https://github.com/arnaudbirk))
