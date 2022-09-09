@@ -2,6 +2,7 @@
 
 """
 Version of the gpao client
+Do not touch this file. this is generate automatically.
 """
 
 # Version of the ign-gpao-client
