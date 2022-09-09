@@ -27,7 +27,7 @@ jobs:
         sed -ie "s/LABEL version=\"*.*.*\"/LABEL version=\"${{steps.tagging.outputs.new_tag}}\"/" docker/Dockerfile
     - name: "Bump version file"
       run: |
-        sed -ie "s/__version__=\"*.*.*\"/__version__= \"${{steps.tagging.outputs.new_tag}}\"/" client/__init__.py
+        sed -ie "s/__version__ = \"*.*.*\"/__version__ = \"${{steps.tagging.outputs.new_tag}}\"/" client/__init__.py
     - name: "✏️ Generate full changelog"
       uses: heinrichreimer/github-changelog-generator-action@v2.3
       with:
