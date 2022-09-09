@@ -14,6 +14,7 @@
 
 ### 📁 Other pull requests
 
+- fix version \_\_init\_\_.py [\#18](https://github.com/ign-gpao/client/pull/18) ([arnaudbirk](https://github.com/arnaudbirk))
 - fix version \_\_init\_\_.py [\#17](https://github.com/ign-gpao/client/pull/17) ([arnaudbirk](https://github.com/arnaudbirk))
 - fix workflow install twine [\#16](https://github.com/ign-gpao/client/pull/16) ([arnaudbirk](https://github.com/arnaudbirk))
 - fix workflow [\#15](https://github.com/ign-gpao/client/pull/15) ([arnaudbirk](https://github.com/arnaudbirk))
