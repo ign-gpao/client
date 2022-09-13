@@ -1,12 +1,16 @@
 # 📑 Changelog
 
-## [Unreleased](https://github.com/ign-gpao/client/tree/HEAD)
+## [0.5.0](https://github.com/ign-gpao/client/tree/0.5.0) (2022-09-13)
 
-[Full Changelog](https://github.com/ign-gpao/client/compare/0.4.0...HEAD)
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.4.0...0.5.0)
 
-### 🐛 Bug fixes
+### 📁 Other issues
 
-- Crash si differents utilisateurs lancent le clients \(à cause des permissions sur fichier client.log\) [\#21](https://github.com/ign-gpao/client/issues/21)
+- Client : Migration [\#2](https://github.com/ign-gpao/client/issues/2)
+
+### 📁 Other pull requests
+
+- \#fix number of thread on windows \(max to 60\). [\#23](https://github.com/ign-gpao/client/pull/23) ([gliegard](https://github.com/gliegard))
 
 ## [0.4.0](https://github.com/ign-gpao/client/tree/0.4.0) (2022-09-13)
 
@@ -14,6 +18,7 @@
 
 ### 🐛 Bug fixes
 
+- Crash si differents utilisateurs lancent le clients \(à cause des permissions sur fichier client.log\) [\#21](https://github.com/ign-gpao/client/issues/21)
 - Crash si differents utilisateurs lancent le clients à cause des permissions sur fichier clientlog [\#22](https://github.com/ign-gpao/client/pull/22) ([arnaudbirk](https://github.com/arnaudbirk))
 
 ## [0.3.0](https://github.com/ign-gpao/client/tree/0.3.0) (2022-09-09)
