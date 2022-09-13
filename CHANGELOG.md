@@ -1,5 +1,21 @@
 # 📑 Changelog
 
+## [Unreleased](https://github.com/ign-gpao/client/tree/HEAD)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.4.0...HEAD)
+
+### 🐛 Bug fixes
+
+- Crash si differents utilisateurs lancent le clients \(à cause des permissions sur fichier client.log\) [\#21](https://github.com/ign-gpao/client/issues/21)
+
+## [0.4.0](https://github.com/ign-gpao/client/tree/0.4.0) (2022-09-13)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.3.0...0.4.0)
+
+### 🐛 Bug fixes
+
+- Crash si differents utilisateurs lancent le clients à cause des permissions sur fichier clientlog [\#22](https://github.com/ign-gpao/client/pull/22) ([arnaudbirk](https://github.com/arnaudbirk))
+
 ## [0.3.0](https://github.com/ign-gpao/client/tree/0.3.0) (2022-09-09)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.2.0...0.3.0)

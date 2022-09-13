@@ -7,4 +7,4 @@ Do not touch this file. this is generate automatically.
 
 # Version of the ign-gpao-client
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
