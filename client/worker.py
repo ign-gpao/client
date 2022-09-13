@@ -273,6 +273,11 @@ def process(parameters, id_thread):
 
 def exec_multiprocess(hostname, nb_process, tags, mode_exec_and_quit):
     """ Execution du multiprocess """
+    if platform.system() == "Windows":
+        if nb_process > 60:
+            logging.info("Limitation sous Windows: 60 threads au lieu des %s demandés", nb_process)
+            nb_process = 60
+
     with multiprocessing.Pool(nb_process) as pool:
         signal.signal(signal.SIGINT, signal.SIG_IGN)
 
