@@ -3,7 +3,9 @@ Client pour la GPAO
 Permet de lancer un thread par coeur
 """
 # !/usr/bin/python
+import os
 import sys
+import stat
 import multiprocessing
 
 import argparse
@@ -16,6 +18,8 @@ from . import __version__
 NB_PROCESS = multiprocessing.cpu_count()
 
 HOSTNAME = socket.gethostname()
+
+LOG_FILENAME = "client.log"
 
 
 def arg_parser():
@@ -60,12 +64,21 @@ ARGS = arg_parser()
 
 logging.basicConfig(
     handlers=[
-        logging.FileHandler("client.log"),
+        logging.FileHandler(LOG_FILENAME),
         logging.StreamHandler()
     ],
     format='%(asctime)s %(levelname)-5s %(message)s',
     level=logging.DEBUG if ARGS.verbose else logging.INFO,
     datefmt='%Y-%m-%d %H:%M:%S')
+
+# AB : Ajout des droits en lecture/ecriture pour tous
+# https://www.tutorialspoint.com/python/os_chmod.htm
+os.chmod(LOG_FILENAME, stat.S_IRUSR |
+         stat.S_IWUSR |
+         stat.S_IRGRP |
+         stat.S_IWGRP |
+         stat.S_IROTH |
+         stat.S_IWOTH)
 
 
 if __name__ == "__main__":
