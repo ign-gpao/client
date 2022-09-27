@@ -128,7 +128,7 @@ def read_stdout_process(proc, id_job, str_thread_id, command):
             last_flush = time.time()
 
 
-def launch_command(job, str_thread_id, shell, working_dir):
+def launch_command(job, str_thread_id, working_dir):
     """ Lancement d'une ligne de commande """
     id_job = job["id"]
     command = job["command"]
@@ -141,11 +141,9 @@ def launch_command(job, str_thread_id, shell, working_dir):
     return_code = None
     error_message = ""
     try:
-        if not shell:
-            command = shlex.split(command, posix=False)
         with subprocess.Popen(
             command,
-            shell=shell,
+            shell=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             encoding="utf8",
@@ -176,9 +174,6 @@ def process(parameters, id_thread):
     """ Traitement pour un thread """
     str_thread_id = "[" + str(id_thread) + "]"
     id_session = -1
-    # AB : Il faut passer shell=True sous windows
-    # pour que les commandes systemes soient reconnues
-    shell = platform.system() == "Windows"
 
     try:
         # On cree un dossier temporaire dans le dossier
@@ -227,7 +222,7 @@ def process(parameters, id_thread):
                         status,
                         error_message,
                     ) = launch_command(
-                        req.json()[0], str_thread_id, shell, working_dir
+                        req.json()[0], str_thread_id, working_dir
                     )
 
                     logging.info("%s : Maj du job: %s, code_retour: %s, "
