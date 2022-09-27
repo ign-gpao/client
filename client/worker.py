@@ -142,7 +142,7 @@ def launch_command(job, str_thread_id, shell, working_dir):
     error_message = ""
     try:
         if not shell:
-            command = shlex.split(command, posix=False)
+            command = shlex.split(command, posix=True)
         with subprocess.Popen(
             command,
             shell=shell,
