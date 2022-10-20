@@ -187,7 +187,7 @@ def process(parameters, id_thread):
 
             url = "session?host=" + parameters["hostname"]
             if parameters["tags"]:
-                url += str(id_session) + "&tags=" + parameters["tags"]
+                url += "&tags=" + parameters["tags"]
 
             req = send_request(url, "PUT", str_thread_id=str_thread_id)
 
@@ -198,9 +198,7 @@ def process(parameters, id_thread):
             if parameters["mode_exec_and_quit"]:
                 logging.info("%s : Ce thread devient actif", str_thread_id)
                 host = parameters["hostname"]
-                # ajout de -1 au nom du host quand c'est un client avec tag
-                if parameters["tags"]:
-                    host += "-1"
+
                 send_request("node/setNbActive?host=" + host + "&limit=10",
                              "POST",
                              str_thread_id=str_thread_id)
