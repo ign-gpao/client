@@ -2,11 +2,19 @@
 
 ## [Unreleased](https://github.com/ign-gpao/client/tree/HEAD)
 
-[Full Changelog](https://github.com/ign-gpao/client/compare/0.5.1...HEAD)
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.6.0...HEAD)
 
-### 🐛 Bug fixes
+### 🚀 Enhancements
 
-- Mac : pb sur une ligne de commande  [\#8](https://github.com/ign-gpao/client/issues/8)
+- Machine avec tag [\#6](https://github.com/ign-gpao/client/issues/6)
+
+## [0.6.0](https://github.com/ign-gpao/client/tree/0.6.0) (2022-10-20)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.5.1...0.6.0)
+
+### 📁 Other pull requests
+
+- correctif nom de machine [\#28](https://github.com/ign-gpao/client/pull/28) ([gliegard](https://github.com/gliegard))
 
 ## [0.5.1](https://github.com/ign-gpao/client/tree/0.5.1) (2022-09-28)
 
@@ -14,6 +22,7 @@
 
 ### 🐛 Bug fixes
 
+- Mac : pb sur une ligne de commande  [\#8](https://github.com/ign-gpao/client/issues/8)
 - \#patch issue \#8 : split command line with posix True [\#25](https://github.com/ign-gpao/client/pull/25) ([gliegard](https://github.com/gliegard))
 
 ## [0.5.0](https://github.com/ign-gpao/client/tree/0.5.0) (2022-09-13)
