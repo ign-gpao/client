@@ -6,3 +6,4 @@ ign_gpao_client.egg-info
 *.pye
 client.log
 test_project1.json
+test_print_loop.json
