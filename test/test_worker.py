@@ -39,15 +39,13 @@ def test_1_create_gpao():
     response = send_project(FILENAME)
     assert response.status_code == 200
 
-    os.remove(FILENAME)
-
 
 @pytest.mark.skip(reason="skip exec gpao mono threaded")
 def test_2_execute_gpao_client():
 
-    worker.process([0, "", True])
+    worker.exec_multiprocess("test_client", 1, "", True)
 
 
 def test_3_execute_gpao_client_multithreaded():
 
-    worker.exec_multiprocess(3, "", True)
+    worker.exec_multiprocess("test_client", 3, "", True)

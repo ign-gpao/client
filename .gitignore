@@ -5,4 +5,4 @@ ign_gpao_client.egg-info
 *.pyc
 *.pye
 client.log
-
+test_project1.json
