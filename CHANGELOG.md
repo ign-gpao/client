@@ -2,15 +2,27 @@
 
 ## [Unreleased](https://github.com/ign-gpao/client/tree/HEAD)
 
-[Full Changelog](https://github.com/ign-gpao/client/compare/0.6.0...HEAD)
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.7.0...HEAD)
 
-### 🚀 Enhancements
+### 🐛 Bug fixes
 
-- Machine avec tag [\#6](https://github.com/ign-gpao/client/issues/6)
+- Lecture de la sortie standard ralentie [\#11](https://github.com/ign-gpao/client/issues/11)
+
+## [0.7.0](https://github.com/ign-gpao/client/tree/0.7.0) (2022-11-09)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.6.0...0.7.0)
+
+### 🐛 Bug fixes
+
+- Correction du bug de la sortie très lente [\#29](https://github.com/ign-gpao/client/pull/29) ([gliegard](https://github.com/gliegard))
 
 ## [0.6.0](https://github.com/ign-gpao/client/tree/0.6.0) (2022-10-20)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.5.1...0.6.0)
+
+### 🚀 Enhancements
+
+- Machine avec tag [\#6](https://github.com/ign-gpao/client/issues/6)
 
 ### 📁 Other pull requests
 
