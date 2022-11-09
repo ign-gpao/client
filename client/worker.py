@@ -80,7 +80,7 @@ def get_free_space_gb(dirname):
     return space_available
 
 
-def read_stdout_process(proc, id_job, str_thread_id, command):
+def read_stdout_process(proc: subprocess.Popen, id_job, str_thread_id, command):
     """ Lecture de la sortie console """
     last_flush = time.time()
     command_str = "Commande : "+str(command)+"\n\n"
@@ -95,7 +95,21 @@ def read_stdout_process(proc, id_job, str_thread_id, command):
     realtime_output = ""
 
     while True:
-        realtime_output += proc.stdout.readline()
+
+        # lit toutes les lignes
+        i = 0
+        while True:
+            i = i + 1
+            line = proc.stdout.readline()
+            if line:
+                realtime_output += line
+            else:
+                break
+
+            # regulièrement, on sort de la boucle pour envoyer les résultats
+            if (time.time() - last_flush) > MIN_FLUSH_RATE:
+                break
+
         realtime_output = realtime_output.replace('\x00', '')
 
         if proc.poll() is not None:
@@ -114,8 +128,12 @@ def read_stdout_process(proc, id_job, str_thread_id, command):
             break
 
         if realtime_output:
+
+            # La partie avec le sleep n'est peut être plus necessaire depuis qu'on boucle pour recupérer toutes les lignes
             if (time.time() - last_flush) < MIN_FLUSH_RATE:
-                time.sleep(MIN_FLUSH_RATE-(time.time() - last_flush))
+                sleep_second = MIN_FLUSH_RATE-(time.time() - last_flush)
+                #print("SLEEP " + str(sleep_second) + " SECOND, arrive très peu (vu sous windows)")
+                time.sleep(sleep_second)
 
             url_tmp = "job/" + str(id_job) + "/appendLog"
 
