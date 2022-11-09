@@ -129,12 +129,6 @@ def read_stdout_process(proc: subprocess.Popen, id_job, str_thread_id, command):
 
         if realtime_output:
 
-            # La partie avec le sleep n'est peut être plus necessaire depuis qu'on boucle pour recupérer toutes les lignes
-            if (time.time() - last_flush) < MIN_FLUSH_RATE:
-                sleep_second = MIN_FLUSH_RATE-(time.time() - last_flush)
-                #print("SLEEP " + str(sleep_second) + " SECOND, arrive très peu (vu sous windows)")
-                time.sleep(sleep_second)
-
             url_tmp = "job/" + str(id_job) + "/appendLog"
 
             send_request(url_tmp,
