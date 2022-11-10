@@ -33,22 +33,26 @@ URL_API = (
 )
 
 
+def url_api(hostname: str, port="8080"):
+    return f"http://{hostname}:{port}/api/"
+
+
 def send_request(url, mode, json=None, str_thread_id=None):
     """ Fonction executant les requetes http """
     success = False
-    logging.debug("%s : %s : %s%s", str_thread_id, mode, URL_API, url)
+    logging.debug("%s : %s : %s", str_thread_id, mode, url)
     while not success:
         try:
             if mode == "GET":
-                req = requests.get(URL_API+url, timeout=60)
+                req = requests.get(url, timeout=60)
                 req.raise_for_status()
                 return req
             if mode == "PUT":
-                req = requests.put(URL_API+url, timeout=60)
+                req = requests.put(url, timeout=60)
                 req.raise_for_status()
                 return req
             if mode == "POST":
-                req = requests.post(URL_API+url, json=json, timeout=60)
+                req = requests.post(url, json=json, timeout=60)
                 req.raise_for_status()
                 return req
         except requests.exceptions.Timeout:
@@ -80,14 +84,14 @@ def get_free_space_gb(dirname):
     return space_available
 
 
-def read_stdout_process(proc: subprocess.Popen, id_job, str_thread_id, command):
+def read_stdout_process(url_api:str, proc: subprocess.Popen, id_job, str_thread_id, command):
     """ Lecture de la sortie console """
     last_flush = time.time()
     command_str = "Commande : "+str(command)+"\n\n"
 
     url_tmp = "job/" + str(id_job) + "/appendLog"
 
-    send_request(url_tmp,
+    send_request(url_api + url_tmp,
                  "POST",
                  json={"log": command_str},
                  str_thread_id=str_thread_id)
@@ -121,7 +125,7 @@ def read_stdout_process(proc: subprocess.Popen, id_job, str_thread_id, command):
             if realtime_output:
                 url_tmp = "job/" + str(id_job) + "/appendLog"
 
-                send_request(url_tmp,
+                send_request(url_api + url_tmp,
                              "POST",
                              json={"log": realtime_output},
                              str_thread_id=str_thread_id)
@@ -131,7 +135,7 @@ def read_stdout_process(proc: subprocess.Popen, id_job, str_thread_id, command):
 
             url_tmp = "job/" + str(id_job) + "/appendLog"
 
-            send_request(url_tmp,
+            send_request(url_api + url_tmp,
                          "POST",
                          json={"log": realtime_output},
                          str_thread_id=str_thread_id)
@@ -140,7 +144,7 @@ def read_stdout_process(proc: subprocess.Popen, id_job, str_thread_id, command):
             last_flush = time.time()
 
 
-def launch_command(job, str_thread_id, shell, working_dir):
+def launch_command(url_api: str, job, str_thread_id, shell, working_dir):
     """ Lancement d'une ligne de commande """
     id_job = job["id"]
     command = job["command"]
@@ -165,7 +169,7 @@ def launch_command(job, str_thread_id, shell, working_dir):
             universal_newlines=True,
             cwd=working_dir,
         ) as proc:
-            read_stdout_process(proc, id_job, str_thread_id, command)
+            read_stdout_process(url_api, proc, id_job, str_thread_id, command)
             return_code = proc.poll()
             status = "done"
     except subprocess.CalledProcessError as ex:
@@ -186,6 +190,7 @@ def launch_command(job, str_thread_id, shell, working_dir):
 
 def process(parameters, id_thread):
     """ Traitement pour un thread """
+    url_api = parameters["url_api"]
     str_thread_id = "[" + str(id_thread) + "]"
     id_session = -1
     # AB : Il faut passer shell=True sous windows
@@ -201,7 +206,7 @@ def process(parameters, id_thread):
             if parameters["tags"]:
                 url += "&tags=" + parameters["tags"]
 
-            req = send_request(url, "PUT", str_thread_id=str_thread_id)
+            req = send_request(url_api + url, "PUT", str_thread_id=str_thread_id)
 
             id_session = req.json()[0]["id"]
             logging.info("%s : working dir (%s) id_session (%s)",
@@ -211,7 +216,7 @@ def process(parameters, id_thread):
                 logging.info("%s : Ce thread devient actif", str_thread_id)
                 host = parameters["hostname"]
 
-                send_request("node/setNbActive?host=" + host + "&limit=10",
+                send_request(url_api + "node/setNbActive?host=" + host + "&limit=10",
                              "POST",
                              str_thread_id=str_thread_id)
 
@@ -227,7 +232,7 @@ def process(parameters, id_thread):
                         )
                 else:
                     url_tmp = "job/ready?id_session=" + str(id_session)
-                    req = send_request(url_tmp,
+                    req = send_request(url_api + url_tmp,
                                        "GET",
                                        str_thread_id=str_thread_id)
                 if req and req.json():
@@ -237,7 +242,7 @@ def process(parameters, id_thread):
                         status,
                         error_message,
                     ) = launch_command(
-                        req.json()[0], str_thread_id, shell, working_dir
+                        url_api, req.json()[0], str_thread_id, shell, working_dir
                     )
 
                     logging.info("%s : Maj du job: %s, code_retour: %s, "
@@ -251,7 +256,7 @@ def process(parameters, id_thread):
                                "&status=" + str(status) +
                                "&returnCode=" + str(return_code))
 
-                    req = send_request(url_tmp,
+                    req = send_request(url_api + url_tmp,
                                        "POST",
                                        json={"log": error_message},
                                        str_thread_id=str_thread_id)
@@ -274,14 +279,14 @@ def process(parameters, id_thread):
     except KeyboardInterrupt:
         logging.info("%s : On demande au process de s'arreter", str_thread_id)
 
-        req = send_request("session/close?id=" + str(id_session),
+        req = send_request(url_api + "session/close?id=" + str(id_session),
                            "POST",
                            str_thread_id=str_thread_id)
 
     logging.info("%s : Fin du thread", str_thread_id)
 
 
-def exec_multiprocess(hostname, nb_process, tags, mode_exec_and_quit):
+def exec_multiprocess(url_api, hostname, nb_process, tags, mode_exec_and_quit):
     """ Execution du multiprocess """
     if platform.system() == "Windows":
         if nb_process > 60:
@@ -291,7 +296,8 @@ def exec_multiprocess(hostname, nb_process, tags, mode_exec_and_quit):
     with multiprocessing.Pool(nb_process) as pool:
         signal.signal(signal.SIGINT, signal.SIG_IGN)
 
-        parameters = {'hostname': hostname,
+        parameters = {'url_api': url_api,
+                      'hostname': hostname,
                       'tags': tags,
                       'mode_exec_and_quit': mode_exec_and_quit}
 

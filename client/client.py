@@ -99,7 +99,7 @@ if __name__ == "__main__":
     logging.info("HOSTNAME : %s", HOSTNAME)
     logging.info("NB_PROCESS : %s", NB_PROCESS)
 
-    REQ_NB_SESSIONS = worker.send_request("nodes", "GET")
+    REQ_NB_SESSIONS = worker.send_request(worker.URL_API + "nodes", "GET")
 
     NODES = REQ_NB_SESSIONS.json()
     NB_SESSION = 0
@@ -118,6 +118,6 @@ if __name__ == "__main__":
                       "(ex: python client.py -s _MonSuffixe).")
         sys.exit(1)
 
-    worker.exec_multiprocess(HOSTNAME, NB_PROCESS, ARGS.tags, False)
+    worker.exec_multiprocess(worker.URL_API, HOSTNAME, NB_PROCESS, ARGS.tags, False)
 
     logging.info("Fin du client GPAO")
