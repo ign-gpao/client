@@ -48,4 +48,4 @@ def test_2_execute_gpao_client():
 
 def test_3_execute_gpao_client_multithreaded():
 
-    worker.exec_multiprocess("test_client", 3, "", True)
+    worker.exec_multiprocess(worker.URL_API, "test_client", 3, "", True)
