@@ -33,7 +33,8 @@ URL_API = (
 )
 
 
-def url_api(hostname: str, port="8080"):
+def build_url_api(hostname: str, port="8080"):
+    """construit l'url"""
     return f"http://{hostname}:{port}/api/"
 
 
@@ -279,7 +280,7 @@ def process(parameters, id_thread):
     except KeyboardInterrupt:
         logging.info("%s : On demande au process de s'arreter", str_thread_id)
 
-        req = send_request(url_api + "session/close?id=" + str(id_session),
+        send_request(url_api + "session/close?id=" + str(id_session),
                            "POST",
                            str_thread_id=str_thread_id)
 
