@@ -1,12 +1,12 @@
 # 📑 Changelog
 
-## [Unreleased](https://github.com/ign-gpao/client/tree/HEAD)
+## [0.7.1](https://github.com/ign-gpao/client/tree/0.7.1) (2022-11-10)
 
-[Full Changelog](https://github.com/ign-gpao/client/compare/0.7.0...HEAD)
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.7.0...0.7.1)
 
-### 🐛 Bug fixes
+### 🚀 Enhancements
 
-- Lecture de la sortie standard ralentie [\#11](https://github.com/ign-gpao/client/issues/11)
+- refactor url api, et methode pour utile pour construire l'url. \#patch [\#30](https://github.com/ign-gpao/client/pull/30) ([gliegard](https://github.com/gliegard))
 
 ## [0.7.0](https://github.com/ign-gpao/client/tree/0.7.0) (2022-11-09)
 
@@ -14,6 +14,7 @@
 
 ### 🐛 Bug fixes
 
+- Lecture de la sortie standard ralentie [\#11](https://github.com/ign-gpao/client/issues/11)
 - Correction du bug de la sortie très lente [\#29](https://github.com/ign-gpao/client/pull/29) ([gliegard](https://github.com/gliegard))
 
 ## [0.6.0](https://github.com/ign-gpao/client/tree/0.6.0) (2022-10-20)
