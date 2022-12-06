@@ -280,9 +280,11 @@ def process(parameters, id_thread):
                                      str_thread_id)
                         raise KeyboardInterrupt
 
-                # sleep
-                if not parameters["mode_exec_and_quit"]:
-                    time.sleep(random.randrange(10))
+                    # sleep
+                    if not parameters["mode_exec_and_quit"]:
+                        time.sleep(random.randrange(20, 30))
+
+                        
     except KeyboardInterrupt:
         logging.info("%s : On demande au process de s'arreter", str_thread_id)
 
