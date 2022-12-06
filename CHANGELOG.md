@@ -1,5 +1,13 @@
 # 📑 Changelog
 
+## [0.8.0](https://github.com/ign-gpao/client/tree/0.8.0) (2022-12-06)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.7.1...0.8.0)
+
+### 📁 Other pull requests
+
+- Optimisation client pour decharger api des requetes de demande de job [\#32](https://github.com/ign-gpao/client/pull/32) ([ijeuffrard](https://github.com/ijeuffrard))
+
 ## [0.7.1](https://github.com/ign-gpao/client/tree/0.7.1) (2022-11-10)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.7.0...0.7.1)
