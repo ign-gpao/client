@@ -85,7 +85,11 @@ def get_free_space_gb(dirname):
     return space_available
 
 
-def read_stdout_process(url_api:str, proc: subprocess.Popen, id_job, str_thread_id, command):
+def read_stdout_process(url_api: str,
+                        proc: subprocess.Popen,
+                        id_job,
+                        str_thread_id,
+                        command):
     """ Lecture de la sortie console """
     last_flush = time.time()
     command_str = "Commande : "+str(command)+"\n\n"
@@ -220,7 +224,9 @@ def process(parameters, id_thread):
             if parameters["tags"]:
                 url += "&tags=" + parameters["tags"]
 
-            req = send_request(url_api + url, "PUT", str_thread_id=str_thread_id)
+            req = send_request(url_api + url,
+                               "PUT",
+                               str_thread_id=str_thread_id)
 
             id_session = req.json()[0]["id"]
             logging.info("%s : working dir (%s) id_session (%s)",
@@ -230,7 +236,8 @@ def process(parameters, id_thread):
                 logging.info("%s : Ce thread devient actif", str_thread_id)
                 host = parameters["hostname"]
 
-                send_request(url_api + "node/setNbActive?host=" + host + "&limit=10",
+                send_request(url_api + "node/setNbActive?host="
+                             + host + "&limit=10",
                              "POST",
                              str_thread_id=str_thread_id)
 
@@ -249,7 +256,11 @@ def process(parameters, id_thread):
                         status,
                         error_message,
                     ) = launch_command(
-                        url_api, req.json()[0], str_thread_id, shell, working_dir
+                        url_api,
+                        req.json()[0],
+                        str_thread_id,
+                        shell,
+                        working_dir
                     )
 
                     logging.info("%s : Maj du job: %s, code_retour: %s, "
@@ -288,8 +299,8 @@ def process(parameters, id_thread):
         logging.info("%s : On demande au process de s'arreter", str_thread_id)
 
         send_request(url_api + "session/close?id=" + str(id_session),
-                           "POST",
-                           str_thread_id=str_thread_id)
+                     "POST",
+                     str_thread_id=str_thread_id)
 
     logging.info("%s : Fin du thread", str_thread_id)
 
@@ -298,7 +309,8 @@ def exec_multiprocess(url_api, hostname, nb_process, tags, mode_exec_and_quit):
     """ Execution du multiprocess """
     if platform.system() == "Windows":
         if nb_process > 60:
-            logging.info("Limitation sous Windows: 60 threads au lieu des %s demandés", nb_process)
+            logging.info("Limite Windows: 60 threads au lieu des %s demandés",
+                         nb_process)
             nb_process = 60
 
     with multiprocessing.Pool(nb_process) as pool:
