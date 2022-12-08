@@ -12,6 +12,9 @@ import argparse
 import logging
 import socket
 
+import glob
+import shutil
+
 from client import worker
 from . import __version__
 
@@ -49,6 +52,15 @@ def arg_parser():
         type=str,
         default="",
         help="comma separated list of tags",
+    )
+    parser.add_argument(
+        "-c",
+        "--clean",
+        help="delete old temporary dir and \
+                        close all open sessions",
+
+        required=False,
+        action="store_true",
     )
     parser.add_argument(
         "-v",
@@ -99,6 +111,24 @@ if __name__ == "__main__":
     logging.info("HOSTNAME : %s", HOSTNAME)
     logging.info("NB_PROCESS : %s", NB_PROCESS)
 
+    if ARGS.clean:
+        logging.info("Appel de la fonction nettoyage")
+        logging.info("  Suppression des répertoires temporaires")
+
+        logging.info("  Nombre de répertoire à supprimer : %s",
+                     len(glob.glob('tmp*')))
+
+        for file in glob.glob('tmp*'):
+            shutil.rmtree(file)
+
+        logging.info("  Suppression des sessions obsolètes")
+        REQ_NB_SESSIONS_CLOSE = worker.send_request(
+            worker.URL_API + "sessions/close?hostname=" + str(HOSTNAME),
+            "POST"
+            )
+        logging.info("  Nombre de sessions fermées : %s",
+                     REQ_NB_SESSIONS_CLOSE.json()[0]["nb_sessions"])
+
     REQ_NB_SESSIONS = worker.send_request(worker.URL_API + "nodes", "GET")
 
     NODES = REQ_NB_SESSIONS.json()
@@ -112,10 +142,12 @@ if __name__ == "__main__":
             )
     if NB_SESSION > 0:
         logging.error("Erreur: il y a deja des sessions "
-                      "ouvertes avec ce nom de machine.")
-        logging.error("Pour lancer plusieurs client sur une meme machine,"
-                      " utiliser un suffixe "
-                      "(ex: python client.py -s _MonSuffixe).")
+                      "ouvertes avec ce nom de machine."
+                      "Pour lancer plusieurs client sur une même machine, "
+                      "utilisez un suffixe "
+                      "(ex: python -m client.client -s _MonSuffixe)."
+                      "Sinon vous pouvez utiliser l'option --clean "
+                      "pour purger les sessions non fermées")
         sys.exit(1)
 
     worker.exec_multiprocess(
