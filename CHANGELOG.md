@@ -1,5 +1,21 @@
 # 📑 Changelog
 
+## [Unreleased](https://github.com/ign-gpao/client/tree/HEAD)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.9.0...HEAD)
+
+### 🚀 Enhancements
+
+- client: proposer de purger les sessions non fermées [\#27](https://github.com/ign-gpao/client/issues/27)
+
+## [0.9.0](https://github.com/ign-gpao/client/tree/0.9.0) (2022-12-08)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.8.0...0.9.0)
+
+### 📁 Other pull requests
+
+- Add feature clean [\#33](https://github.com/ign-gpao/client/pull/33) ([arnaudbirk](https://github.com/arnaudbirk))
+
 ## [0.8.0](https://github.com/ign-gpao/client/tree/0.8.0) (2022-12-06)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.7.1...0.8.0)
