@@ -1,16 +1,24 @@
 # 📑 Changelog
 
-## [Unreleased](https://github.com/ign-gpao/client/tree/HEAD)
+## [0.10.0](https://github.com/ign-gpao/client/tree/0.10.0) (2022-12-15)
 
-[Full Changelog](https://github.com/ign-gpao/client/compare/0.9.0...HEAD)
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.9.0...0.10.0)
 
-### 🚀 Enhancements
+### 📖 Documentation
 
-- client: proposer de purger les sessions non fermées [\#27](https://github.com/ign-gpao/client/issues/27)
+- Utilisation de powerShell [\#4](https://github.com/ign-gpao/client/issues/4)
+
+### 📁 Other pull requests
+
+- url api support https, via env var API\_PROTOCOL [\#34](https://github.com/ign-gpao/client/pull/34) ([gliegard](https://github.com/gliegard))
 
 ## [0.9.0](https://github.com/ign-gpao/client/tree/0.9.0) (2022-12-08)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.8.0...0.9.0)
+
+### 🚀 Enhancements
+
+- client: proposer de purger les sessions non fermées [\#27](https://github.com/ign-gpao/client/issues/27)
 
 ### 📁 Other pull requests
 
