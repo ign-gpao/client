@@ -25,13 +25,12 @@ MIN_AVAILABLE_SPACE = 5
 MIN_FLUSH_RATE = 5
 
 URL_API = (
-    "http://"
+    os.getenv("API_PROTOCOL", "http") + "://"
     + os.getenv("URL_API", "localhost")
     + ":"
     + os.getenv("API_PORT", "8080")
     + "/api/"
 )
-
 
 def build_url_api(hostname: str, port="8080"):
     """construit l'url"""
