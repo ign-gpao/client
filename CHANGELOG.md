@@ -1,5 +1,21 @@
 # 📑 Changelog
 
+## [Unreleased](https://github.com/ign-gpao/client/tree/HEAD)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.12.0...HEAD)
+
+### 🐛 Bug fixes
+
+- Paramétrer le minimum d'espace disque vital [\#31](https://github.com/ign-gpao/client/issues/31)
+
+## [0.12.0](https://github.com/ign-gpao/client/tree/0.12.0) (2023-01-06)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.11.0...0.12.0)
+
+### 📁 Other pull requests
+
+- min available space in environnement [\#35](https://github.com/ign-gpao/client/pull/35) ([gliegard](https://github.com/gliegard))
+
 ## [0.11.0](https://github.com/ign-gpao/client/tree/0.11.0) (2023-01-06)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.10.0...0.11.0)
