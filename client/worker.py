@@ -20,7 +20,8 @@ from functools import partial
 import requests
 
 # espace libre minimal en Go sur un dossier de travail pour accepter un job
-MIN_AVAILABLE_SPACE = 5
+MIN_AVAILABLE_SPACE = int(os.getenv("GPAO_MIN_AVAILABLE_SPACE", "5"))
+
 # duree minimale en s entre deux requetes de mise a jour du log
 MIN_FLUSH_RATE = 5
 
