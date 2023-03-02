@@ -33,6 +33,7 @@ URL_API = (
     + "/api/"
 )
 
+
 def build_url_api(hostname: str, port="8080"):
     """construit l'url"""
     return f"http://{hostname}:{port}/api/"
@@ -220,6 +221,7 @@ def process(parameters, id_thread):
         # courant qui devient le dossier d'execution
         with tempfile.TemporaryDirectory(dir=".") as working_dir:
 
+            # insertion de la session dans la base
             url = "session?host=" + parameters["hostname"]
             if parameters["tags"]:
                 url += "&tags=" + parameters["tags"]
@@ -232,13 +234,23 @@ def process(parameters, id_thread):
             logging.info("%s : working dir (%s) id_session (%s)",
                          str_thread_id, working_dir, id_session)
 
+            if int(parameters["autostart"]) > 0:
+                logging.info("%s : Ce thread devient actif", str_thread_id)
+                host = parameters["hostname"]
+
+                send_request(url_api + "node/setNbActive?value=" +
+                             parameters["autostart"],
+                             "POST",
+                             json={"hosts": [host]},
+                             str_thread_id=str_thread_id)
+
             if parameters["mode_exec_and_quit"]:
                 logging.info("%s : Ce thread devient actif", str_thread_id)
                 host = parameters["hostname"]
 
-                send_request(url_api + "node/setNbActive?host="
-                             + host + "&limit=10",
+                send_request(url_api + "node/setNbActive?value=10",
                              "POST",
+                             json={"hosts": [host]},
                              str_thread_id=str_thread_id)
 
             while True:
@@ -305,7 +317,12 @@ def process(parameters, id_thread):
     logging.info("%s : Fin du thread", str_thread_id)
 
 
-def exec_multiprocess(url_api, hostname, nb_process, tags, mode_exec_and_quit):
+def exec_multiprocess(url_api,
+                      hostname,
+                      nb_process,
+                      tags,
+                      autostart,
+                      mode_exec_and_quit):
     """ Execution du multiprocess """
     if platform.system() == "Windows":
         if nb_process > 60:
@@ -319,6 +336,7 @@ def exec_multiprocess(url_api, hostname, nb_process, tags, mode_exec_and_quit):
         parameters = {'url_api': url_api,
                       'hostname': hostname,
                       'tags': tags,
+                      'autostart': autostart,
                       'mode_exec_and_quit': mode_exec_and_quit}
 
         func_process = partial(process, parameters)
