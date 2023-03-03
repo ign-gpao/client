@@ -7,7 +7,10 @@ import requests
 from gpao.builder import Builder
 from gpao.project import Project
 from gpao.job import Job
+import socket
 
+# Use a unique tag, to be shure that the job is done by this client.
+TAG = "client_gpao_test_unit_on_" + socket.gethostname()
 
 def send_project(filename: str):
     headers = {
@@ -23,12 +26,12 @@ def test_1_create_gpao():
     FILENAME = "test_print_loop.json"
 
     # create jobs
-    job = Job("test_loop_should_last_lest_than_1_sec", "python -u ../test/loop.py")
-    job2 = Job("test_loop2_should_last_30_sec", "python -u ../test/loop2.py")
-    job3 = Job("test_loop3_should_last_30_sec", "python -u ../test/loop3.py")
-    job4 = Job("test_loop4_should_print_lines_last_30_sec", "python -u ../test/loop4.py")
+    job = Job("test_loop_should_last_lest_than_1_sec", "python -u ../test/loop.py", tags=[TAG])
+    job2 = Job("test_loop2_should_last_30_sec", "python -u ../test/loop2.py", tags=[TAG])
+    job3 = Job("test_loop3_should_last_30_sec", "python -u ../test/loop3.py", tags=[TAG])
+    job4 = Job("test_loop4_should_print_lines_last_30_sec", "python -u ../test/loop4.py", tags=[TAG])
 
-    project1 = Project("test_client_print_loop", [job, job2, job3, job4])
+    project1 = Project("test_client_print_loop_" + socket.gethostname(), [job, job2, job3, job4])
  
     builder = Builder([project1])
     builder.save_as_json(FILENAME)
@@ -40,4 +43,4 @@ def test_1_create_gpao():
 
 def test_3_execute_gpao_client_multithreaded():
 
-    worker.exec_multiprocess(worker.URL_API, "test_client", 1, "", True)
+    worker.exec_multiprocess(worker.URL_API, socket.gethostname(), 1, TAG, True)
