@@ -215,6 +215,7 @@ def process(parameters, id_thread):
     # pour que les commandes systemes soient reconnues
     shell = platform.system() == "Windows"
 
+    try_before_exiting = 2
     try:
         # On cree un dossier temporaire dans le dossier
         # courant qui devient le dossier d'execution
@@ -247,7 +248,7 @@ def process(parameters, id_thread):
                 logging.info("%s : Ce thread devient actif", str_thread_id)
                 host = parameters["hostname"]
 
-                send_request(url_api + "node/setNbActive?value=10",
+                send_request(url_api + "node/setNbActive?value=100",
                              "POST",
                              json={"hosts": [host]},
                              str_thread_id=str_thread_id)
@@ -297,14 +298,19 @@ def process(parameters, id_thread):
                                       req.content)
                 else:
                     if parameters["mode_exec_and_quit"]:
-                        logging.info("%s : Mode test, et plus de "
-                                     "job à faire => sortie",
-                                     str_thread_id)
-                        raise KeyboardInterrupt
+                        if try_before_exiting <= 0:
+                            logging.info("%s : Mode test, et plus de "
+                                        "job à faire => sortie",
+                                        str_thread_id)
+                            raise KeyboardInterrupt
+                        else:
+                            try_before_exiting = try_before_exiting - 1
 
                     # sleep
                     if not parameters["mode_exec_and_quit"]:
                         time.sleep(random.randrange(20, 30))
+                    else:
+                        time.sleep(random.randrange(2, 5))
 
     except KeyboardInterrupt:
         logging.info("%s : On demande au process de s'arreter", str_thread_id)

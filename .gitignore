@@ -7,3 +7,4 @@ ign_gpao_client.egg-info
 client.log
 test_project1.json
 test_print_loop.json
+test_50_threads.json
