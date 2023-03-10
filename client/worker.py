@@ -67,6 +67,7 @@ def send_request(url, mode, json=None, str_thread_id=None):
                           str_thread_id, url)
             logging.error("%s : Erreur %s", str_thread_id, exception)
             time.sleep(1)
+    return None
 
 
 def get_free_space_gb(dirname):
@@ -206,6 +207,15 @@ def is_enought_free_space_on_disk(working_dir):
     return True
 
 
+def custom_sleep(mode_test: bool):
+    """ Pause, plus courte pour les tests """
+    if mode_test:
+        # test should be fast
+        time.sleep(random.randrange(2, 5))
+    else:
+        time.sleep(random.randrange(20, 30))
+
+
 def process(parameters, id_thread):
     """ Traitement pour un thread """
     url_api = parameters["url_api"]
@@ -303,14 +313,9 @@ def process(parameters, id_thread):
                                         "job à faire => sortie",
                                         str_thread_id)
                             raise KeyboardInterrupt
-                        else:
-                            try_before_exiting = try_before_exiting - 1
+                        try_before_exiting = try_before_exiting - 1
 
-                    # sleep
-                    if not parameters["mode_exec_and_quit"]:
-                        time.sleep(random.randrange(20, 30))
-                    else:
-                        time.sleep(random.randrange(2, 5))
+                    custom_sleep(parameters["mode_exec_and_quit"])
 
     except KeyboardInterrupt:
         logging.info("%s : On demande au process de s'arreter", str_thread_id)
