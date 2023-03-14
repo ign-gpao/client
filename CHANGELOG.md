@@ -2,15 +2,31 @@
 
 ## [Unreleased](https://github.com/ign-gpao/client/tree/HEAD)
 
-[Full Changelog](https://github.com/ign-gpao/client/compare/0.12.0...HEAD)
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.13.0...HEAD)
 
-### 🐛 Bug fixes
+### 🚀 Enhancements
 
-- Paramétrer le minimum d'espace disque vital [\#31](https://github.com/ign-gpao/client/issues/31)
+- Autostart des clients [\#37](https://github.com/ign-gpao/client/issues/37)
+
+## [0.13.0](https://github.com/ign-gpao/client/tree/0.13.0) (2023-03-14)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.12.0...0.13.0)
+
+### 🚀 Enhancements
+
+- Client devrait pouvoir démarrer, même s'il y a déjà une session enregistré, avec une option [\#36](https://github.com/ign-gpao/client/issues/36)
+
+### 📁 Other pull requests
+
+- mode autostart + maj route mode\_exec\_and\_quit [\#38](https://github.com/ign-gpao/client/pull/38) ([ijeuffrard](https://github.com/ijeuffrard))
 
 ## [0.12.0](https://github.com/ign-gpao/client/tree/0.12.0) (2023-01-06)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.11.0...0.12.0)
+
+### 🐛 Bug fixes
+
+- Paramétrer le minimum d'espace disque vital [\#31](https://github.com/ign-gpao/client/issues/31)
 
 ### 📁 Other pull requests
 
