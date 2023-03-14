@@ -235,7 +235,7 @@ def process(parameters, id_thread):
                          str_thread_id, working_dir, id_session)
 
             if int(parameters["autostart"]) > 0:
-                logging.info("%s : Ce thread devient actif", str_thread_id)
+                logging.debug("%s : Ce thread devient actif", str_thread_id)
                 host = parameters["hostname"]
 
                 send_request(url_api + "node/setNbActive?value=" +
