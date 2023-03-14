@@ -41,22 +41,21 @@ def build_url_api(hostname: str, port="8080"):
 
 def send_request(url, mode, json=None, str_thread_id=None):
     """ Fonction executant les requetes http """
-    success = False
     logging.debug("%s : %s : %s", str_thread_id, mode, url)
-    while not success:
+    while True:
         try:
+            req = ""
             if mode == "GET":
                 req = requests.get(url, timeout=60)
                 req.raise_for_status()
-                return req
             if mode == "PUT":
                 req = requests.put(url, timeout=60)
                 req.raise_for_status()
-                return req
             if mode == "POST":
                 req = requests.post(url, json=json, timeout=60)
                 req.raise_for_status()
-                return req
+            return req
+
         except requests.exceptions.Timeout:
             logging.error("%s : timeout sur l'url : %s", str_thread_id, url)
             time.sleep(1)
