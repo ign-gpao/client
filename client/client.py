@@ -69,6 +69,13 @@ def arg_parser():
         help="increase output verbosity",
         action="store_true",
     )
+    parser.add_argument(
+        "-a",
+        "--autostart",
+        required=False,
+        help="set the number of threads to be automatically activated",
+        default="0",
+    )
     return parser.parse_args()
 
 
@@ -154,7 +161,7 @@ if __name__ == "__main__":
         worker.URL_API,
         HOSTNAME,
         NB_PROCESS,
-        ARGS.tags,
+        ARGS,
         False
     )
 
