@@ -161,8 +161,7 @@ if __name__ == "__main__":
         worker.URL_API,
         HOSTNAME,
         NB_PROCESS,
-        ARGS.tags,
-        ARGS.autostart,
+        ARGS,
         False
     )
 

@@ -320,8 +320,7 @@ def process(parameters, id_thread):
 def exec_multiprocess(url_api,
                       hostname,
                       nb_process,
-                      tags,
-                      autostart,
+                      args,
                       mode_exec_and_quit):
     """ Execution du multiprocess """
     if platform.system() == "Windows":
@@ -335,8 +334,8 @@ def exec_multiprocess(url_api,
 
         parameters = {'url_api': url_api,
                       'hostname': hostname,
-                      'tags': tags,
-                      'autostart': autostart,
+                      'tags': args.tags,
+                      'autostart': args.autostart,
                       'mode_exec_and_quit': mode_exec_and_quit}
 
         func_process = partial(process, parameters)
