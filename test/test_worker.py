@@ -1,13 +1,15 @@
 from client import worker
 
 import os
-import pytest
 import requests
 
 from gpao.builder import Builder
 from gpao.project import Project
 from gpao.job import Job
+import socket
 
+# Use a unique tag, to be shure that the job is done by this client.
+TAG = "client_gpao_test_unit_on_" + socket.gethostname()
 
 def send_project(filename: str):
     headers = {
@@ -40,12 +42,15 @@ def test_1_create_gpao():
     assert response.status_code == 200
 
 
-@pytest.mark.skip(reason="skip exec gpao mono threaded")
-def test_2_execute_gpao_client():
-
-    worker.exec_multiprocess("test_client", 1, "", True)
-
-
 def test_3_execute_gpao_client_multithreaded():
 
-    worker.exec_multiprocess(worker.URL_API, "test_client", 3, "", True)
+    parameters = {
+        'url_api': worker.URL_API,
+        'hostname': socket.gethostname(),
+        'tags': TAG,
+        'autostart': '3',
+        'mode_exec_and_quit': True
+    }
+
+
+    worker.exec_multiprocess(3, parameters)

@@ -157,12 +157,14 @@ if __name__ == "__main__":
                       "pour purger les sessions non fermées")
         sys.exit(1)
 
-    worker.exec_multiprocess(
-        worker.URL_API,
-        HOSTNAME,
-        NB_PROCESS,
-        ARGS,
-        False
-    )
+    parameters = {
+        'url_api': worker.URL_API,
+        'hostname': HOSTNAME,
+        'tags': ARGS.tags,
+        'autostart': ARGS.autostart,
+        'mode_exec_and_quit': False
+    }
+
+    worker.exec_multiprocess(NB_PROCESS, parameters)
 
     logging.info("Fin du client GPAO")

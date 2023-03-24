@@ -1,7 +1,6 @@
 from client import worker
 
 import os
-import pytest
 import requests
 
 from gpao.builder import Builder
@@ -43,4 +42,12 @@ def test_1_create_gpao():
 
 def test_3_execute_gpao_client_multithreaded():
 
-    worker.exec_multiprocess(worker.URL_API, socket.gethostname(), 1, TAG, True)
+    parameters = {
+        'url_api': worker.URL_API,
+        'hostname': socket.gethostname(),
+        'tags': TAG,
+        'autostart': '50',
+        'mode_exec_and_quit': True
+    }
+
+    worker.exec_multiprocess(1, parameters)

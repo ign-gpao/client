@@ -254,21 +254,12 @@ def process(parameters, id_thread):
                              json={"hosts": [host]},
                              str_thread_id=str_thread_id)
 
-            if parameters["mode_exec_and_quit"]:
-                logging.info("%s : Ce thread devient actif", str_thread_id)
-                host = parameters["hostname"]
-
-                send_request(url_api + "node/setNbActive?value=100",
-                             "POST",
-                             json={"hosts": [host]},
-                             str_thread_id=str_thread_id)
-
             while True:
                 # on verifie l'espace disponible dans le dossier de travail
                 req = None
                 if is_enought_free_space_on_disk(working_dir):
-                    url_tmp = "job/ready?id_session=" + str(id_session)
-                    req = send_request(url_api + url_tmp,
+                    url = "job/ready?id_session=" + str(id_session)
+                    req = send_request(url_api + url,
                                        "GET",
                                        str_thread_id=str_thread_id)
                 if req and req.json():
@@ -292,11 +283,11 @@ def process(parameters, id_thread):
                                  status,
                                  error_message)
 
-                    url_tmp = ("job?id=" + str(id_job) +
+                    url = ("job?id=" + str(id_job) +
                                "&status=" + str(status) +
                                "&returnCode=" + str(return_code))
 
-                    req = send_request(url_api + url_tmp,
+                    req = send_request(url_api + url,
                                        "POST",
                                        json={"log": error_message},
                                        str_thread_id=str_thread_id)
@@ -327,12 +318,16 @@ def process(parameters, id_thread):
     logging.info("%s : Fin du thread", str_thread_id)
 
 
-def exec_multiprocess(url_api,
-                      hostname,
-                      nb_process,
-                      args,
-                      mode_exec_and_quit):
-    """ Execution du multiprocess """
+def exec_multiprocess(nb_process, parameters):
+    """ Execution du multiprocess. parameter is a dict containing:
+        parameters = {
+        'url_api': str,
+        'hostname': str,
+        'tags': "tags separated by ,",
+        'autostart': "Number of threads active, as string",
+        'mode_exec_and_quit': True or False
+    }
+    """
     if platform.system() == "Windows":
         if nb_process > 60:
             logging.info("Limite Windows: 60 threads au lieu des %s demandés",
@@ -341,12 +336,6 @@ def exec_multiprocess(url_api,
 
     with multiprocessing.Pool(nb_process) as pool:
         signal.signal(signal.SIGINT, signal.SIG_IGN)
-
-        parameters = {'url_api': url_api,
-                      'hostname': hostname,
-                      'tags': args.tags,
-                      'autostart': args.autostart,
-                      'mode_exec_and_quit': mode_exec_and_quit}
 
         func_process = partial(process, parameters)
 
