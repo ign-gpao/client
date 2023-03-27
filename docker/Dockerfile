@@ -1,6 +1,6 @@
 FROM library/python:latest
 LABEL maintainer="IGN"
-LABEL version="0.13.0"
+LABEL version="0.13.1"
 
 ADD . /var/client
 

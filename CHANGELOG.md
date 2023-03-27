@@ -1,12 +1,12 @@
 # 📑 Changelog
 
-## [Unreleased](https://github.com/ign-gpao/client/tree/HEAD)
+## [0.13.1](https://github.com/ign-gpao/client/tree/0.13.1) (2023-03-27)
 
-[Full Changelog](https://github.com/ign-gpao/client/compare/0.13.0...HEAD)
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.13.0...0.13.1)
 
-### 🚀 Enhancements
+### 📁 Other pull requests
 
-- Autostart des clients [\#37](https://github.com/ign-gpao/client/issues/37)
+- nouveaux tests [\#39](https://github.com/ign-gpao/client/pull/39) ([gliegard](https://github.com/gliegard))
 
 ## [0.13.0](https://github.com/ign-gpao/client/tree/0.13.0) (2023-03-14)
 
@@ -14,6 +14,7 @@
 
 ### 🚀 Enhancements
 
+- Autostart des clients [\#37](https://github.com/ign-gpao/client/issues/37)
 - Client devrait pouvoir démarrer, même s'il y a déjà une session enregistré, avec une option [\#36](https://github.com/ign-gpao/client/issues/36)
 
 ### 📁 Other pull requests
