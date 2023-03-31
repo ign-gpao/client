@@ -1,3 +1,4 @@
 requests
 ign-gpao-project-builder
 pytest
+psutil
