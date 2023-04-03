@@ -229,7 +229,7 @@ def process(parameters, id_thread):
     try:
         # On cree un dossier temporaire dans le dossier
         # courant qui devient le dossier d'execution
-        with tempfile.TemporaryDirectory(dir=".") as working_dir:
+        with tempfile.TemporaryDirectory(dir=".", prefix="tmp" + parameters["suffix"]) as working_dir:
 
             # insertion de la session dans la base
             url = "session?host=" + parameters["hostname"]

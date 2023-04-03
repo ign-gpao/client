@@ -44,6 +44,7 @@ def arg_parser():
                         client instances on a machine)",
         required=False,
         type=str,
+        default=""
     )
     parser.add_argument(
         "-t",
@@ -112,8 +113,8 @@ if __name__ == "__main__":
                           ARGS.threads)
             sys.exit(1)
         NB_PROCESS = ARGS.threads
-    if ARGS.suffix:
-        HOSTNAME += ARGS.suffix
+
+    HOSTNAME += ARGS.suffix
 
     logging.info("HOSTNAME : %s", HOSTNAME)
     logging.info("NB_PROCESS : %s", NB_PROCESS)
@@ -122,10 +123,11 @@ if __name__ == "__main__":
         logging.info("Appel de la fonction nettoyage")
         logging.info("  Suppression des répertoires temporaires")
 
+        regex = f"tmp{ARGS.suffix}*"
         logging.info("  Nombre de répertoire à supprimer : %s",
-                     len(glob.glob('tmp*')))
+                     len(glob.glob(regex)))
 
-        for file in glob.glob('tmp*'):
+        for file in glob.glob(regex):
             shutil.rmtree(file)
 
         logging.info("  Suppression des sessions obsolètes")
@@ -162,7 +164,8 @@ if __name__ == "__main__":
         'hostname': HOSTNAME,
         'tags': ARGS.tags,
         'autostart': ARGS.autostart,
-        'mode_exec_and_quit': False
+        'mode_exec_and_quit': False,
+        'suffix': ARGS.suffix
     }
 
     worker.exec_multiprocess(NB_PROCESS, parameters)

@@ -23,9 +23,8 @@ def test_client_with_existing_session_start_with_option_clean():
     alice.stop().assert_exit(0)
 
 
-@pytest.mark.xfail(reason="not implemented yet")
 def test_2_client_cleaning():
-    alice = ClientProc("Alice").start()    
+    alice = ClientProc("Alice").start("--clean")
     bob = ClientProc("Bob").start("--clean")
 
     # issue with the folder comes when client scan disk space in the specific folder
