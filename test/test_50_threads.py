@@ -46,7 +46,8 @@ def test_3_execute_gpao_client_multithreaded():
         'hostname': socket.gethostname(),
         'tags': TAG,
         'autostart': '50',
-        'mode_exec_and_quit': True
+        'mode_exec_and_quit': True,
+        'suffix': ""
     }
 
     worker.exec_multiprocess(50, parameters)

@@ -49,7 +49,8 @@ def test_3_execute_gpao_client_multithreaded():
         'hostname': socket.gethostname(),
         'tags': TAG,
         'autostart': '3',
-        'mode_exec_and_quit': True
+        'mode_exec_and_quit': True,
+        'suffix': ""
     }
 
 

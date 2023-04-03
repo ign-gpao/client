@@ -23,7 +23,11 @@ class ClientProc(object):
     
     def start(self, option: str=""):
 
-        cmd = f"python -m client.client -s _{self.name} -n 1 {option}"
+        suffix_option = ""
+        if (self.name != ""):
+            suffix_option = f" -s _{self.name}"
+
+        cmd = f"python -m client.client {suffix_option} -n 1 {option}"
         print("Start client with command: " + cmd)
         self.proc = subprocess.Popen(
             cmd,
