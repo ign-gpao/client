@@ -12,7 +12,6 @@ import argparse
 import logging
 import socket
 
-import glob
 import shutil
 
 from client import worker
@@ -123,11 +122,11 @@ if __name__ == "__main__":
         logging.info("Appel de la fonction nettoyage")
         logging.info("  Suppression des répertoires temporaires")
 
-        regex = f"tmp{ARGS.suffix}*"
+        folder_to_remove = worker.list_tmp_folder(ARGS.suffix)
         logging.info("  Nombre de répertoire à supprimer : %s",
-                     len(glob.glob(regex)))
+                     len(worker.list_tmp_folder(ARGS.suffix)))
 
-        for file in glob.glob(regex):
+        for file in folder_to_remove:
             shutil.rmtree(file)
 
         logging.info("  Suppression des sessions obsolètes")

@@ -14,9 +14,8 @@ import os
 import logging
 import signal
 import multiprocessing
-
 from functools import partial
-
+import re
 import requests
 
 # espace libre minimal en Go sur un dossier de travail pour accepter un job
@@ -32,6 +31,12 @@ URL_API = (
     + os.getenv("API_PORT", "8080")
     + "/api/"
 )
+
+
+def list_tmp_folder(suffix: str):
+    """List tmp folder on the disk. Parameter suffix can be empty string, or any suffix."""
+    regex = "tmp" + suffix + ".{8}$"
+    return [f for f in os.listdir('.') if re.match(regex, f)]
 
 
 def build_url_api(hostname: str, port="8080"):
@@ -229,7 +234,8 @@ def process(parameters, id_thread):
     try:
         # On cree un dossier temporaire dans le dossier
         # courant qui devient le dossier d'execution
-        with tempfile.TemporaryDirectory(dir=".", prefix="tmp" + parameters["suffix"]) as working_dir:
+        with tempfile.TemporaryDirectory(dir=".",
+                                         prefix="tmp" + parameters["suffix"]) as working_dir:
 
             # insertion de la session dans la base
             url = "session?host=" + parameters["hostname"]
@@ -325,7 +331,8 @@ def exec_multiprocess(nb_process, parameters):
         'hostname': str,
         'tags': "tags separated by ,",
         'autostart': "Number of threads active, as string",
-        'mode_exec_and_quit': True or False
+        'mode_exec_and_quit': True or False,
+        'suffix': empty string or any suffix
     }
     """
     if platform.system() == "Windows":
