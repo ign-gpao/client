@@ -1,5 +1,13 @@
 # 📑 Changelog
 
+## [0.13.2](https://github.com/ign-gpao/client/tree/0.13.2) (2023-04-04)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.13.1...0.13.2)
+
+### 📁 Other pull requests
+
+- fix clean dossier tmp [\#42](https://github.com/ign-gpao/client/pull/42) ([gliegard](https://github.com/gliegard))
+
 ## [0.13.1](https://github.com/ign-gpao/client/tree/0.13.1) (2023-03-27)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.13.0...0.13.1)
