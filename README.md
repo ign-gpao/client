@@ -1,29 +1,22 @@
-# GPAO Client
+# Client
 
-GPAO client, is a python client designed to make distributed computing.
+IGN GPAO Client est un module développée en [Python](https://www.python.org/) qui exécute des traitements (lignes de commande) en optimisant les ressources de la machine sur laquelle il est installé.
 
 ## Installation
-Create a Python environment :
-```
-ci/createEnv.sh
-```
 
-## Example
-Note that you must install the GPAO server before on localhost (https://github.com/ign-packo/ign-gpao).
-Then you can run the test :
-```
-ci/test.sh
-```
+1. Cloner le dépôt ign-gpao/client
+2. Dans le répertoire du client, lancer la commande : `python3 -m client.client`
 
-## Linked projects
+## Utilisation
 
-This project is used to create a JSON file that describe the set of tasks.
+## Développement
 
-https://github.com/arnaudbirk/ign-gpao-project-builder
+Le code peut-être analysé avec PyLint et Flake8.
 
+### Tests
 
-This project is the server used to orchestrate the taks.
+## Licence
 
-https://github.com/ign-packo/ign-gpao
+Ce projet est sous licence CECILL-B (voir [LICENSE.md](https://github.com/ign-gpao/.github/blob/main/LICENSE.md)).
 
-
+[![IGN](https://github.com/ign-gpao/.github/blob/main/images/logo_ign.png)](https://www.ign.fr)
