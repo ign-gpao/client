@@ -1,5 +1,9 @@
 # 📑 Changelog
 
+## [0.14.0](https://github.com/ign-gpao/client/tree/0.14.0) (2023-04-11)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.13.2...0.14.0)
+
 ## [0.13.2](https://github.com/ign-gpao/client/tree/0.13.2) (2023-04-04)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.13.1...0.13.2)
