@@ -9,6 +9,18 @@ IGN GPAO Client est un module développée en [Python](https://www.python.org/) 
 
 ## Utilisation
 
+Différents paramètres optionnels peuvent être ajoutés à la commande précédente :
+
+| Commande | Abréviation | Description |
+| --- | --- | --- |
+| --help | -h | Afficher l'aide au paramétrage de la commande |
+| --verbose | -v | Augmenter la verbosité des logs |
+| --clean | -c | Supprimer les anciens dossiers temporaires et fermer toutes les sessions ouvertes |
+| --threads THREADS | -n THREADS | Fixer le nombre de threads du client, par défaut le nombre estimé de CPU de la machine |
+| --suffix SUFFIX | -s SUFFIX | Ajouter un suffixe au nom du client (nécessaire si l'on utilise plusieurs clients sur une machine), par défaut nom de la machine |
+| --tags TAGS | -t TAGS | Définir les tags du client (liste de tags séparés par des virgules) |
+| --autostart AUTOSTART | -a AUTOSTART | Définir le nombre de threads à activer automatiquement dès le lancement du client, par défaut 0 |
+
 ## Développement
 
 Le code peut-être analysé avec PyLint et Flake8.
