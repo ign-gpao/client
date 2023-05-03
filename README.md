@@ -7,6 +7,17 @@ IGN GPAO Client est un module développée en [Python](https://www.python.org/) 
 1. Cloner le dépôt ign-gpao/client
 2. Dans le répertoire du client, lancer la commande : `python3 -m client.client`
 
+## Variables d'environnement
+
+La configuration de variables d'environnement propres au Client est nécessaire pour son bon fonctionnement. Elles sont définies par défaut mais sont à adapter en fonction de votre installation. En voici l'inventaire :
+
+| Variable | Obligatoire | Valeur par défaut | Commentaire |
+| --- | --- | --- | --- |
+| API_PROTOCOL | Non | http | Protocole utilisé par le client pour se connecter à l'API |
+| URL_API  | Non |  localhost  |  Nom du serveur hébergeant l'API |
+| API_PORT | Non |  8080  |  Port de l'API vu par le client  |
+| GPAO_MIN_AVAILABLE_SPACE | Non | 5 (Go) | Espace disque minimal pour que le client démarre |
+
 ## Utilisation
 
 Différents paramètres optionnels peuvent être ajoutés à la commande précédente :
