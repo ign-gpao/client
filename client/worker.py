@@ -34,7 +34,8 @@ URL_API = (
 
 
 def list_tmp_folder(suffix: str):
-    """List tmp folder on the disk. Parameter suffix can be empty string, or any suffix."""
+    """List tmp folder on the disk.
+    Parameter suffix can be empty string, or any suffix."""
     regex = "tmp" + suffix + ".{8}$"
     return [f for f in os.listdir('.') if re.match(regex, f)]
 
@@ -62,10 +63,25 @@ def send_request(url, mode, json=None, str_thread_id=None):
             return req
 
         except requests.exceptions.Timeout:
-            logging.error("%s : timeout sur l'url : %s", str_thread_id, url)
+            logging.error("%s : Timeout Error sur l'url : %s",
+                          str_thread_id, url)
             time.sleep(1)
         except requests.exceptions.TooManyRedirects:
-            logging.error("%s : timeout sur l'url : %s", str_thread_id, url)
+            logging.error("%s : Too many redirect Error sur l'url : %s",
+                          str_thread_id, url)
+            time.sleep(1)
+        except requests.exceptions.ConnectionError:
+            logging.error("%s : Connection Error sur l'url : %s",
+                          str_thread_id, url)
+            time.sleep(1)
+        except requests.exceptions.HTTPError:
+            logging.error("%s : HTTP Error sur l'url : %s, code = %s",
+                          str_thread_id, url,
+                          req.status_code)
+            if req.status_code == 404:
+                logging.info("Le job n'existe pas dans la base, "
+                             "on passe à la suite")
+                return req
             time.sleep(1)
         except requests.exceptions.RequestException as exception:
             logging.error("%s : Erreur sur la requete : %s",
@@ -221,6 +237,40 @@ def custom_sleep(mode_test: bool):
         time.sleep(random.randrange(20, 30))
 
 
+def insert_session(hostname, tags, url_api, str_thread_id):
+    """ Insertion d'une nouvelle session """
+
+    url = "session?host=" + hostname
+    if tags is not None:
+        url += "&tags=" + tags
+
+    req = send_request(url_api + url,
+                       "PUT",
+                       str_thread_id=str_thread_id)
+
+    return req.json()[0]["id"]
+
+
+def refresh_session(hostname,
+                    tags,
+                    url_api,
+                    str_thread_id,
+                    id_session):
+    """ Fonction qui vérifie que la session est présente
+        et l'enregistre si nécesssaire """
+
+    url = "sessions/" + hostname
+    req = send_request(url_api+url,
+                       "GET",
+                       str_thread_id=str_thread_id)
+
+    for row in req.json():
+        if row['id'] == id_session:
+            return id_session
+
+    return insert_session(hostname, tags, url_api, str_thread_id)
+
+
 def process(parameters, id_thread):
     """ Traitement pour un thread """
     url_api = parameters["url_api"]
@@ -235,18 +285,14 @@ def process(parameters, id_thread):
         # On cree un dossier temporaire dans le dossier
         # courant qui devient le dossier d'execution
         with tempfile.TemporaryDirectory(dir=".",
-                                         prefix="tmp" + parameters["suffix"]) as working_dir:
+                                         prefix="tmp" + parameters["suffix"]
+                                         ) as working_dir:
 
-            # insertion de la session dans la base
-            url = "session?host=" + parameters["hostname"]
-            if parameters["tags"]:
-                url += "&tags=" + parameters["tags"]
+            id_session = insert_session(parameters["hostname"],
+                                        parameters["tags"],
+                                        url_api,
+                                        str_thread_id)
 
-            req = send_request(url_api + url,
-                               "PUT",
-                               str_thread_id=str_thread_id)
-
-            id_session = req.json()[0]["id"]
             logging.info("%s : working dir (%s) id_session (%s)",
                          str_thread_id, working_dir, id_session)
 
@@ -261,8 +307,18 @@ def process(parameters, id_thread):
                              str_thread_id=str_thread_id)
 
             while True:
-                # on verifie l'espace disponible dans le dossier de travail
                 req = None
+
+                # on verifie que la session est toujours présente dans la base
+                # et si besoin on en insére une nouvelle
+                id_session = refresh_session(parameters["hostname"],
+                                             parameters["tags"],
+                                             url_api, str_thread_id,
+                                             id_session
+                                             )
+
+                # on verifie l'espace disponible dans le dossier de travail
+                # avant de chercher un nouveau job
                 if is_enought_free_space_on_disk(working_dir):
                     url = "job/ready?id_session=" + str(id_session)
                     req = send_request(url_api + url,
@@ -290,15 +346,15 @@ def process(parameters, id_thread):
                                  error_message)
 
                     url = ("job?id=" + str(id_job) +
-                               "&status=" + str(status) +
-                               "&returnCode=" + str(return_code))
+                           "&status=" + str(status) +
+                           "&returnCode=" + str(return_code))
 
                     req = send_request(url_api + url,
                                        "POST",
                                        json={"log": error_message},
                                        str_thread_id=str_thread_id)
 
-                    if req.status_code != 200:
+                    if req.status_code not in (200, 404):
                         logging.error("%s : Mauvais statut code : %s, %s",
                                       str_thread_id,
                                       req.status_code,
@@ -307,8 +363,8 @@ def process(parameters, id_thread):
                     if parameters["mode_exec_and_quit"]:
                         if try_before_exiting <= 0:
                             logging.info("%s : Mode test, et plus de "
-                                        "job à faire => sortie",
-                                        str_thread_id)
+                                         "job à faire => sortie",
+                                         str_thread_id)
                             raise KeyboardInterrupt
                         try_before_exiting = try_before_exiting - 1
 
