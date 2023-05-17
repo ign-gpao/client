@@ -1,5 +1,13 @@
 # 📑 Changelog
 
+## [0.17.0](https://github.com/ign-gpao/client/tree/0.17.0) (2023-05-17)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.16.0...0.17.0)
+
+### 📁 Other pull requests
+
+- fix pb delete project or clean database [\#45](https://github.com/ign-gpao/client/pull/45) ([arnaudbirk](https://github.com/arnaudbirk))
+
 ## [0.16.0](https://github.com/ign-gpao/client/tree/0.16.0) (2023-05-03)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.15.0...0.16.0)
