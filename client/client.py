@@ -103,7 +103,7 @@ os.chmod(LOG_FILENAME, stat.S_IRUSR |
 if __name__ == "__main__":
     logging.info("Demarrage du client GPAO")
     logging.info("Version du client : %s", __version__)
-    logging.info("URL_API : %s", worker.URL_API)
+    logging.info("GPAO_API_URL : %s", worker.GPAO_API_URL)
 
     logging.debug("Argument : %s", ARGS)
     if ARGS.threads:
@@ -131,13 +131,13 @@ if __name__ == "__main__":
 
         logging.info("  Suppression des sessions obsolètes")
         REQ_NB_SESSIONS_CLOSE = worker.send_request(
-            worker.URL_API + "sessions/close?hostname=" + str(HOSTNAME),
+            worker.GPAO_API_URL + "sessions/close?hostname=" + str(HOSTNAME),
             "POST"
             )
         logging.info("  Nombre de sessions fermées : %s",
                      REQ_NB_SESSIONS_CLOSE.json()[0]["nb_sessions"])
 
-    REQ_NB_SESSIONS = worker.send_request(worker.URL_API + "nodes", "GET")
+    REQ_NB_SESSIONS = worker.send_request(worker.GPAO_API_URL + "nodes", "GET")
 
     NODES = REQ_NB_SESSIONS.json()
     NB_SESSION = 0
@@ -159,7 +159,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     parameters = {
-        'url_api': worker.URL_API,
+        'url_api': worker.GPAO_API_URL,
         'hostname': HOSTNAME,
         'tags': ARGS.tags,
         'autostart': ARGS.autostart,

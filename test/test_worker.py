@@ -16,7 +16,7 @@ def send_project(filename: str):
         'Content-type': 'application/json',
     }
     data = open(filename, 'rb')
-    response = requests.put(worker.URL_API+ "project", headers=headers, data=data)
+    response = requests.put(worker.GPAO_API_URL+ "project", headers=headers, data=data)
     return response
 
 
@@ -45,7 +45,7 @@ def test_1_create_gpao():
 def test_3_execute_gpao_client_multithreaded():
 
     parameters = {
-        'url_api': worker.URL_API,
+        'url_api': worker.GPAO_API_URL,
         'hostname': socket.gethostname(),
         'tags': TAG,
         'autostart': '3',
