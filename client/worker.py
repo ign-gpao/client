@@ -24,11 +24,11 @@ MIN_AVAILABLE_SPACE = int(os.getenv("GPAO_MIN_AVAILABLE_SPACE", "5"))
 # duree minimale en s entre deux requetes de mise a jour du log
 MIN_FLUSH_RATE = 5
 
-URL_API = (
-    os.getenv("API_PROTOCOL", "http") + "://"
-    + os.getenv("URL_API", "localhost")
+GPAO_API_URL = (
+    os.getenv("GPAO_API_PROTOCOL", "http") + "://"
+    + os.getenv("GPAO_API_URL", "localhost")
     + ":"
-    + os.getenv("API_PORT", "8080")
+    + os.getenv("GPAO_API_PORT", "8080")
     + "/api/"
 )
 

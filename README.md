@@ -13,9 +13,9 @@ La configuration de variables d'environnement propres au Client est nécessaire 
 
 | Variable | Obligatoire | Valeur par défaut | Commentaire |
 | --- | --- | --- | --- |
-| API_PROTOCOL | Non | http | Protocole utilisé par le client pour se connecter à l'API |
-| URL_API  | Non |  localhost  |  Nom du serveur hébergeant l'API |
-| API_PORT | Non |  8080  |  Port de l'API vu par le client  |
+| GPAO_API_PROTOCOL | Non | http | Protocole utilisé par le client pour se connecter à l'API |
+| GPAO_API_URL  | Non |  localhost  |  Nom du serveur hébergeant l'API |
+| GPAO_API_PORT | Non |  8080  |  Port de l'API vu par le client  |
 | GPAO_MIN_AVAILABLE_SPACE | Non | 5 (Go) | Espace disque minimal pour que le client démarre |
 
 ## Utilisation
