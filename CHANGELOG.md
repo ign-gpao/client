@@ -1,5 +1,13 @@
 # 📑 Changelog
 
+## [0.18.0](https://github.com/ign-gpao/client/tree/0.18.0) (2023-06-15)
+
+[Full Changelog](https://github.com/ign-gpao/client/compare/0.17.0...0.18.0)
+
+### 📁 Other pull requests
+
+- maj name var env [\#46](https://github.com/ign-gpao/client/pull/46) ([ijeuffrard](https://github.com/ijeuffrard))
+
 ## [0.17.0](https://github.com/ign-gpao/client/tree/0.17.0) (2023-05-17)
 
 [Full Changelog](https://github.com/ign-gpao/client/compare/0.16.0...0.17.0)
